@@ -6,8 +6,8 @@ const { width, height } = Dimensions.get("window");
 const Container = styled.SafeAreaView`
   flex: 1;
   background-color: #f5f5f5;
-  /* padding-top: ${Platform.OS === "android" ? "50px" : "0px"};
-  padding-bottom: ${Platform.OS === "android" ? "100px" : "0px"}; */
+  padding-top: ${Platform.OS === "android" ? "50px" : "0px"};
+  padding-bottom: ${Platform.OS === "android" ? "100px" : "0px"};
 `;
 
 const scrollView = {

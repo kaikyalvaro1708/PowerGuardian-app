@@ -132,10 +132,9 @@ const HospitalSectorsList: React.FC<Props> = ({
                           {sector.region.name}
                         </Styled.hospitalName>
                         <Styled.statusChip
-                          style={[
-                            Styled.statusChipStyle,
-                            { backgroundColor: getStatusColor(sector.status) },
-                          ]}
+                          style={{
+                            backgroundColor: getStatusColor(sector.status),
+                          }}
                         >
                           {getStatusLabel(sector.status)}
                         </Styled.statusChip>
