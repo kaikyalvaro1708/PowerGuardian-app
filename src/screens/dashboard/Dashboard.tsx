@@ -26,28 +26,24 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadDashboardData();
-    const interval = setInterval(loadDashboardData, 10000); // Atualiza a cada 10 segundos
+    const interval = setInterval(loadDashboardData, 10000);
     return () => clearInterval(interval);
   }, []);
 
   const loadDashboardData = async () => {
     try {
-      // Carrega os setores do storage
       const loadedSectors = await StorageService.loadHospitalSectors();
       setSectors(loadedSectors);
 
-      // Atualiza quedas de energia estimadas
       const { updatedSectors, hasUpdates } =
         await StorageService.updateEstimatedOutages(loadedSectors);
       if (hasUpdates) {
         setSectors(updatedSectors);
       }
 
-      // Calcula o status geral baseado nos setores
       const calculatedStatus = calculateHospitalStatus(updatedSectors);
       setHospitalStatus(calculatedStatus);
 
-      // Gera eventos baseados nos dados dos setores
       const events = generateEventsFromSectors(updatedSectors);
       setRecentEvents(events);
     } catch (error) {
@@ -68,7 +64,6 @@ const Dashboard = () => {
       };
     }
 
-    // Conta setores com problemas
     const criticalSectors = sectors.filter(
       (s) => s.status === "CRITICAL"
     ).length;
@@ -78,7 +73,6 @@ const Dashboard = () => {
       (s) => s.currentOutage?.isOngoing
     ).length;
 
-    // Determina status geral
     let overall: HospitalStatus["overall"] = "NORMAL";
     if (criticalSectors > 0 || offlineSectors > 0) {
       overall = "CRITICAL";
@@ -86,13 +80,10 @@ const Dashboard = () => {
       overall = "WARNING";
     }
 
-    // Calcula se há falha na rede elétrica (se há quedas de energia ativas)
     const powerGrid = sectorsWithOutages === 0;
 
-    // Gerador ativo se há quedas de energia
     const backupGenerator = sectorsWithOutages > 0;
 
-    // Simula nível de bateria baseado na situação
     let batteryLevel = 100;
     if (sectorsWithOutages > 0) {
       batteryLevel = Math.max(20, 100 - sectorsWithOutages * 15);

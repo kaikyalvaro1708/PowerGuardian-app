@@ -1,4 +1,3 @@
-// components/ImpactSummary/styled.ts (atualizado)
 import styled from "styled-components/native";
 import { Card, Text } from "react-native-paper";
 

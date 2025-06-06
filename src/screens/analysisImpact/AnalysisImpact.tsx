@@ -1,4 +1,3 @@
-// AnalysisImpact/index.tsx (componente principal atualizado)
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { AnalysisImpactStyled as Styled } from "./styled";
@@ -63,7 +62,7 @@ const AnalysisImpact = () => {
     };
 
     const duration = outage.duration || outage.estimatedDuration || 60;
-    const durationMultiplier = Math.max(1, duration / 60); // Por hora
+    const durationMultiplier = Math.max(1, duration / 60);
 
     return baseCost * severityMultiplier[outage.severity] * durationMultiplier;
   };

@@ -1,4 +1,3 @@
-// components/EventsCard/index.tsx
 import React from "react";
 import { Card, Chip, Paragraph } from "react-native-paper";
 import { EventsCardStyled as Styled } from "./styled";

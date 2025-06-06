@@ -1,4 +1,3 @@
-// components/EventsCard/styled.ts
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 

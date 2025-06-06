@@ -1,4 +1,3 @@
-// components/RecommendedActions/styled.ts
 import styled from "styled-components/native";
 import { Card, Text, Surface } from "react-native-paper";
 

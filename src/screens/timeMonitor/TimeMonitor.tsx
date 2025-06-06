@@ -22,13 +22,11 @@ const TimeMonitor = () => {
     []
   );
 
-  // Função para calcular tempo decorrido ou duração
   const calculateTimeDisplay = (
     outage: PowerOutage,
     currentTime: Date
   ): string => {
     if (outage.isOngoing) {
-      // Calcula tempo decorrido desde o início
       const elapsedMs = currentTime.getTime() - outage.startTime.getTime();
       const elapsedMinutes = Math.floor(elapsedMs / (1000 * 60));
       const hours = Math.floor(elapsedMinutes / 60);
@@ -40,7 +38,6 @@ const TimeMonitor = () => {
         return `${minutes}min (em andamento)`;
       }
     } else if (outage.duration) {
-      // Mostra duração real da queda finalizada
       const hours = Math.floor(outage.duration / 60);
       const minutes = outage.duration % 60;
 
@@ -50,7 +47,6 @@ const TimeMonitor = () => {
         return `${minutes}min (finalizada)`;
       }
     } else if (outage.estimatedDuration) {
-      // Mostra duração estimada
       const hours = Math.floor(outage.estimatedDuration / 60);
       const minutes = outage.estimatedDuration % 60;
 
@@ -64,17 +60,14 @@ const TimeMonitor = () => {
     return "Duração não informada";
   };
 
-  // Carrega dados dos setores
   const loadSectorsData = async () => {
     try {
       const loadedSectors = await StorageService.loadHospitalSectors();
       setSectors(loadedSectors);
 
-      // Processa informações de quedas de energia
       const outageInfos: PowerOutageInfo[] = [];
 
       loadedSectors.forEach((sector) => {
-        // Adiciona queda atual se existir
         if (sector.currentOutage) {
           outageInfos.push({
             sectorName: sector.name,
@@ -88,13 +81,12 @@ const TimeMonitor = () => {
           });
         }
 
-        // Adiciona últimas quedas finalizadas (últimas 5)
         const recentFinishedOutages = sector.powerOutages
           .filter((outage) => !outage.isOngoing && outage.endTime)
           .sort(
             (a, b) => (b.endTime?.getTime() || 0) - (a.endTime?.getTime() || 0)
           )
-          .slice(0, 3); // Últimas 3 quedas finalizadas
+          .slice(0, 3);
 
         recentFinishedOutages.forEach((outage) => {
           outageInfos.push({
@@ -107,7 +99,6 @@ const TimeMonitor = () => {
         });
       });
 
-      // Ordena por severity e se está em andamento
       outageInfos.sort((a, b) => {
         if (a.isOngoing && !b.isOngoing) return -1;
         if (!a.isOngoing && b.isOngoing) return 1;
@@ -136,7 +127,6 @@ const TimeMonitor = () => {
     loadSectorsData();
   }, []);
 
-  // Atualiza os tempos de exibição a cada mudança de currentTime
   useEffect(() => {
     if (powerOutageInfos.length > 0) {
       const updatedInfos = powerOutageInfos.map((info) => ({
